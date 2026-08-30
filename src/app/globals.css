@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens (Milestone 0, P1) ---------- */
+:root {
+  --background: #fff8ee;
+  --surface: #ffffff;
+  --surface-muted: #f6ecdc;
+  --foreground: #2b211a;
+  --muted: #7a6a5c;
+  --accent: #e8743b;
+  --accent-strong: #c9531c;
+  --found: #4caf7d;
+  --found-strong: #2f8f5f;
+  --rare: #8a5cf6;
+  --uncommon: #3b82f6;
+  --common: #9ca3af;
+  --border: #e8dcc8;
+
+  --radius-tile: 14px;
+  --radius-card: 22px;
+  --shadow-tile:
+    0 1px 2px rgba(43, 33, 26, 0.08), 0 4px 10px rgba(43, 33, 26, 0.06);
+  --shadow-pop: 0 10px 30px rgba(43, 33, 26, 0.18);
+
+  --touch-min: 44px;
+  --tile-gap: clamp(4px, 1.2vw, 8px);
+  --duration-fast: 120ms;
+  --duration-pop: 260ms;
+  --duration-spin: 1600ms;
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-found: var(--found);
+  --color-found-strong: var(--found-strong);
+  --color-rare: var(--rare);
+  --color-uncommon: var(--uncommon);
+  --color-common: var(--common);
+  --color-border: var(--border);
+  --radius-tile: var(--radius-tile);
+  --radius-card: var(--radius-card);
+  --shadow-tile: var(--shadow-tile);
+  --shadow-pop: var(--shadow-pop);
+  --font-sans:
+    var(--font-sans-app), ui-rounded, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  touch-action: manipulation; /* kills double-tap zoom */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes stamp-in {
+  0% {
+    transform: scale(2.2) rotate(-18deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.92) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-8deg);
+    opacity: 1;
+  }
+}
+@keyframes settle {
+  0% {
+    transform: translateY(-6px) scale(1.06);
+  }
+  60% {
+    transform: translateY(2px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0.8;
+  }
+}
+@keyframes rise {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.anim-pop {
+  animation: pop var(--duration-pop) var(--ease-pop);
+}
+.anim-stamp {
+  animation: stamp-in var(--duration-pop) var(--ease-pop) both;
+}
+.anim-settle {
+  animation: settle 360ms var(--ease-pop);
+}
+.anim-rise {
+  animation: rise 320ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-pop,
+  .anim-stamp,
+  .anim-settle,
+  .anim-rise {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
