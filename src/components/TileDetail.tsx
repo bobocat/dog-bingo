@@ -55,7 +55,7 @@ export function TileDetail({ tile, onClose }: { tile: Tile; onClose(): void }) {
           </button>
         </div>
 
-        <div className="mx-4 aspect-square overflow-hidden rounded-[var(--radius-card)]">
+        <div className="mx-4 overflow-hidden rounded-[var(--radius-card)]">
           <TileArt tile={tile} size="detail" />
         </div>
 

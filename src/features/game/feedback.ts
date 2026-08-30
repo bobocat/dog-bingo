@@ -9,6 +9,13 @@
 
 const MUTE_KEY = "dog-bingo:muted";
 let ctx: AudioContext | null = null;
+const muteListeners = new Set<() => void>();
+
+/** Subscribe to mute changes (for useSyncExternalStore). */
+export function subscribeMuted(cb: () => void): () => void {
+  muteListeners.add(cb);
+  return () => muteListeners.delete(cb);
+}
 
 export function isMuted(): boolean {
   try {
@@ -25,6 +32,7 @@ export function setMuted(muted: boolean): void {
   } catch {
     /* private mode */
   }
+  muteListeners.forEach((cb) => cb());
 }
 
 function audioCtx(): AudioContext | null {

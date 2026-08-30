@@ -115,7 +115,7 @@ export function TileCell(p: TileCellProps) {
     >
       <div
         className={[
-          "absolute inset-0 transition-[filter,opacity]",
+          "absolute inset-0 flex items-center justify-center overflow-hidden transition-[filter,opacity]",
           slot.isFound ? "opacity-60 saturate-50" : "",
         ].join(" ")}
       >

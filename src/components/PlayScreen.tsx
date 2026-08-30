@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import type { Theme, Tile } from "@/domain/types";
 import { GAME_MODES, progress } from "@/domain/win-conditions";
+import {
+  feedbackFound,
+  feedbackUnfound,
+  isMuted,
+  setMuted,
+  subscribeMuted,
+} from "@/features/game/feedback";
 import { useGame } from "@/features/game/useGame";
 import { CardGrid } from "./CardGrid";
 import { CompletionOverlay } from "./CompletionOverlay";
@@ -31,6 +38,19 @@ export function PlayScreen({ theme }: { theme: Theme }) {
   const [detail, setDetail] = useState<Tile | null>(null);
   const [dismissedGameId, setDismissedGameId] = useState<string | null>(null);
   const [confirmNew, setConfirmNew] = useState(false);
+  const muted = useSyncExternalStore(subscribeMuted, isMuted, () => false);
+
+  function handleToggle(slotId: string) {
+    const st = game.state;
+    if (st && st.game.status === "active") {
+      const slot = st.card.slots.find((x) => x.id === slotId);
+      if (slot && !slot.isFree) {
+        if (slot.isFound) feedbackUnfound();
+        else feedbackFound();
+      }
+    }
+    game.toggle(slotId);
+  }
   const reducedMotion = useReducedMotion();
 
   if (game.phase === "loading") {
@@ -90,7 +110,7 @@ export function PlayScreen({ theme }: { theme: Theme }) {
           tilesById={game.tilesById}
           allTiles={theme.tiles}
           respinsRemaining={completed ? 0 : respins}
-          onToggle={game.toggle}
+          onToggle={handleToggle}
           onInfo={setDetail}
           onReSpin={game.respin}
           reducedMotion={reducedMotion}
@@ -104,6 +124,16 @@ export function PlayScreen({ theme }: { theme: Theme }) {
         >
           ← Themes
         </Link>
+        <button
+          type="button"
+          aria-label={muted ? "Unmute sounds" : "Mute sounds"}
+          aria-pressed={muted}
+          data-testid="mute"
+          onClick={() => setMuted(!muted)}
+          className="min-h-[var(--touch-min)] px-3 py-2 text-lg"
+        >
+          {muted ? "🔇" : "🔊"}
+        </button>
         {confirmNew ? (
           <span className="flex items-center gap-2 text-sm font-bold">
             <span className="text-muted">Abandon card?</span>

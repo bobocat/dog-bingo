@@ -25,7 +25,11 @@ export function TileArt({
     <img
       src={src}
       alt={img.altText}
-      className="h-full w-full object-cover"
+      className={
+        size === "detail"
+          ? "h-auto w-full"
+          : "h-auto max-h-full w-full object-contain"
+      }
       loading={size === "detail" ? "lazy" : "eager"}
       draggable={false}
       onError={() => setFailed(true)}
