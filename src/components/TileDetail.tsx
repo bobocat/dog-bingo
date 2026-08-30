@@ -78,36 +78,6 @@ export function TileDetail({ tile, onClose }: { tile: Tile; onClose(): void }) {
               </div>
             ))}
         </dl>
-
-        {/* Reference images (§15): placeholder strip until Milestone 5 supplies real assets. */}
-        <div className="px-4 pt-2">
-          <p className="text-muted text-xs font-bold tracking-wide uppercase">
-            Reference views
-          </p>
-          <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-            {(tile.referenceImages?.length
-              ? tile.referenceImages
-              : [0, 1, 2]
-            ).map((ref, i) => (
-              <div
-                key={typeof ref === "number" ? i : ref.id}
-                className="h-20 w-20 shrink-0 overflow-hidden rounded-xl"
-              >
-                {typeof ref === "number" ? (
-                  <TileArt tile={tile} size="thumb" />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={ref.thumbnailUrl ?? ref.url}
-                    alt={ref.altText}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );
