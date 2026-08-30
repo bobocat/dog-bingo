@@ -3,7 +3,7 @@
 ## Product Design, Technical Architecture, AI Asset Pipeline, and Implementation Backlog
 
 **Document status:** Implementation design (living)  
-**Last updated:** 2026-08-30 — backlog extracted to `BACKLOG.md`; implementation notes added in §62  
+**Last updated:** 2026-08-30 (session 2) — portrait full-screen card; interim AI artwork shipped for all 68 tiles (see §62)  
 **Primary implementation target:** Claude Code  
 **Primary platform:** Mobile-first browser/PWA  
 **Initial theme:** Dog spotting  
@@ -2326,6 +2326,13 @@ The single-player MVP is complete when:
 # 62. Implementation Notes (living)
 
 Decisions made during implementation that refine or clarify the design above. Newest first.
+
+## 2026-08-30 — Session 2
+
+- **Portrait tiles / full-screen card:** the play screen is now a fixed-height (`h-dvh`) flex column; the 5×5 grid stretches to fill all remaining space with `1fr` rows, so slots are naturally portrait on phones and the card fills the display (user request). Tile art is 3:4.
+- **Interim art pipeline (departure from §28):** rather than standing up ComfyUI first, all 68 tile illustrations were generated with Gemini (`gemini-3.1-flash-image`) through an MCP image tool, using the §36.1 global style prompt plus each tile's identification traits. Style consistency was achieved via prompt consistency (Stage 1 of §38). Masters (~3:4 JPEG, ≈0.5 MB each) are at `C:/git/nanobanana/pictures/`; `scripts/optimize-tiles.mjs` (sharp) derives 384×512 and 768×1024 WebP variants into `public/tiles/` (3.7 MB total). The ComfyUI/FLUX plan in §28–§34 stays the target for the admin generation queue and future themes.
+- **Art wiring:** every tile now has `primaryImage` (approved). `TileArt` renders it with the emoji placeholder as an automatic fallback, so a missing/broken image can never blank a slot.
+- **QA:** sampled per §41; one image had a baked-in painted frame and was inset-cropped. A full 68-tile QA pass is a new backlog item.
 
 ## 2026-08-30 — Session 1
 

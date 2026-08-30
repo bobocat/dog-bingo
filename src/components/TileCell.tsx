@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CardSlot, Tile } from "@/domain/types";
-import { PlaceholderArt } from "./PlaceholderArt";
+import { TileArt } from "./TileArt";
 
 export interface TileCellProps {
   slot: CardSlot;
@@ -35,7 +35,7 @@ export function TileCell(p: TileCellProps) {
   if (slot.isFree) {
     return (
       <div
-        className="bg-accent text-surface flex aspect-square items-center justify-center rounded-[var(--radius-tile)] text-center text-[clamp(11px,3vw,16px)] font-black tracking-wide shadow-[var(--shadow-tile)]"
+        className="bg-accent text-surface flex h-full w-full items-center justify-center rounded-[var(--radius-tile)] text-center text-[clamp(11px,3vw,16px)] font-black tracking-wide shadow-[var(--shadow-tile)]"
         aria-label="Free space"
       >
         FREE
@@ -44,7 +44,7 @@ export function TileCell(p: TileCellProps) {
   }
   if (!tile)
     return (
-      <div className="bg-surface-muted aspect-square rounded-[var(--radius-tile)]" />
+      <div className="bg-surface-muted h-full w-full rounded-[var(--radius-tile)]" />
     );
 
   const busy = spinning !== null;
@@ -106,7 +106,7 @@ export function TileCell(p: TileCellProps) {
       data-testid={`slot-${slot.position}`}
       data-found={slot.isFound}
       className={[
-        "bg-surface relative aspect-square overflow-hidden rounded-[var(--radius-tile)] shadow-[var(--shadow-tile)] select-none",
+        "bg-surface relative h-full w-full overflow-hidden rounded-[var(--radius-tile)] shadow-[var(--shadow-tile)] select-none",
         "outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)]",
         popKey ? "anim-pop" : "",
         settled ? "anim-settle" : "",
@@ -119,7 +119,7 @@ export function TileCell(p: TileCellProps) {
           slot.isFound ? "opacity-60 saturate-50" : "",
         ].join(" ")}
       >
-        <PlaceholderArt tile={shown} />
+        <TileArt tile={shown} />
       </div>
 
       {/* label */}

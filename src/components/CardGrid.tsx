@@ -25,8 +25,11 @@ function CardGridInner(p: CardGridProps) {
 
   return (
     <div
-      className="grid w-full gap-[var(--tile-gap)]"
-      style={{ gridTemplateColumns: `repeat(${p.card.size}, minmax(0, 1fr))` }}
+      className="grid h-full w-full gap-[var(--tile-gap)]"
+      style={{
+        gridTemplateColumns: `repeat(${p.card.size}, minmax(0, 1fr))`,
+        gridTemplateRows: `repeat(${p.card.size}, minmax(0, 1fr))`,
+      }}
       role="grid"
       aria-label="Bingo card"
     >

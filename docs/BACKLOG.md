@@ -47,6 +47,8 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 
 ## Milestone 5 — Local AI Image Generation
 
+> **2026-08-30 interim:** all 68 tile illustrations were generated with Gemini (`gemini-3.1-flash-image`) via the MCP image tool using the §36.1 master style prompt, reviewed by sampling, optimized with sharp, and shipped in `public/tiles/`. The ComfyUI/FLUX local pipeline below remains the plan for regeneration, admin workflow, and future themes. Masters live outside the repo at `C:/git/nanobanana/pictures/`.
+
 - [ ] **P0 — Install/test ComfyUI generation workflow** (FLUX.2 [klein] 4B)
 - [ ] **P0 — Create master style prompt**
 - [ ] **P0 — Create breed prompt builder**
@@ -62,7 +64,7 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 
 - [x] **P0 — IndexedDB persistence** — `storage.ts`; refresh restores card, found state, re-spins, replacements (e2e asserted). Restored state is re-validated against the unique-tile invariant.
 - [~] **P0 — PWA manifest/service worker** — manifest + icons + viewport done. **No service worker yet**; offline play not implemented.
-- [~] **P0 — Optimized image loading** — n/a until real art exists. Placeholder art is emoji + CSS gradient (zero network).
+- [x] **P0 — Optimized image loading** — masters resized to 384×512 card WebP + 768×1024 detail WebP via `scripts/optimize-tiles.mjs`; card uses thumbnails, detail lazy-loads; emoji fallback on load failure.
 - [x] **P0 — Game options screen** — Bingo / Full Card, free center toggle (quota auto-adjusts +1 common when off).
 - [x] **P0 — Completion screen** — confetti, stats (found, time, re-spins used), Play again / Change options / Themes.
 - [ ] **P1 — Sound/haptics** — with mute setting.
@@ -122,4 +124,6 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 - [ ] **P2 — Free-center-off balancing** — currently adds one common tile; consider a theme-defined 25-slot quota instead.
 - [ ] **P2 — Multiple saved games** — storage keys by game id already; UI only tracks one "current" game.
 - [ ] **P2 — Un-marking after completion** — game freezes at `completed`; decide whether players may reopen a card.
-- [ ] **P2 — Placeholder art for tiles that share an emoji** — several breeds use 🐕; distinguishable by hue + label only until real art.
+- [x] **P2 — Placeholder art for tiles that share an emoji** — resolved: real art shipped for all 68 tiles; emoji remains only as a load-failure fallback.
+- [ ] **P1 — Per-tile art QA pass** — sampled tiles look right, but all 68 should be reviewed against the §41 checklist (anatomy, breed accuracy, stray text/frames). One frame already cropped (`person_walking_three_dogs`).
+- [ ] **P2 — Commit or archive master images** — 68 JPEG masters live outside the repo; decide where they belong (repo LFS, Supabase Storage in M7, or archive).

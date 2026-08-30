@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import type { Tile } from "@/domain/types";
-import { PlaceholderArt } from "./PlaceholderArt";
+import { TileArt } from "./TileArt";
 
 /** Identification sheet (§15): "Does the dog I'm looking at match this tile?" */
 export function TileDetail({ tile, onClose }: { tile: Tile; onClose(): void }) {
@@ -56,7 +56,7 @@ export function TileDetail({ tile, onClose }: { tile: Tile; onClose(): void }) {
         </div>
 
         <div className="mx-4 aspect-square overflow-hidden rounded-[var(--radius-card)]">
-          <PlaceholderArt tile={tile} size="detail" />
+          <TileArt tile={tile} size="detail" />
         </div>
 
         <h2 id="tile-detail-title" className="px-4 pt-4 text-2xl font-black">
@@ -94,7 +94,7 @@ export function TileDetail({ tile, onClose }: { tile: Tile; onClose(): void }) {
                 className="h-20 w-20 shrink-0 overflow-hidden rounded-xl"
               >
                 {typeof ref === "number" ? (
-                  <PlaceholderArt tile={tile} size="thumb" />
+                  <TileArt tile={tile} size="thumb" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img

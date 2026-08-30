@@ -56,7 +56,7 @@ export function PlayScreen({ theme }: { theme: Theme }) {
   const completed = state.game.status === "completed";
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col px-3 pt-[calc(var(--safe-top)+8px)] pb-[calc(var(--safe-bottom)+16px)]">
+    <main className="mx-auto flex h-dvh max-w-md flex-col overflow-hidden px-3 pt-[calc(var(--safe-top)+8px)] pb-[calc(var(--safe-bottom)+12px)]">
       <header className="flex items-center justify-between px-1 py-2">
         <div>
           <h1 className="text-lg leading-tight font-black">{theme.name}</h1>
@@ -84,7 +84,7 @@ export function PlayScreen({ theme }: { theme: Theme }) {
         </div>
       </header>
 
-      <div className="flex flex-1 items-center">
+      <div className="min-h-0 flex-1 py-1">
         <CardGrid
           card={state.card}
           tilesById={game.tilesById}
