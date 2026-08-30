@@ -38,14 +38,15 @@ export interface GenerateCardOptions {
 }
 
 export function playableSlotCount(
-  config: Pick<GameConfig, "cardSize" | "freeCenter">,
+  config: Pick<GameConfig, "cardColumns" | "cardRows" | "freeCenter">,
 ): number {
-  const total = config.cardSize * config.cardSize;
+  const total = config.cardColumns * config.cardRows;
   return config.freeCenter ? total - 1 : total;
 }
 
-export function freeCenterPosition(cardSize: number): number {
-  return Math.floor((cardSize * cardSize) / 2);
+/** Middle position; exact center when both dimensions are odd. */
+export function freeCenterPosition(columns: number, rows: number): number {
+  return Math.floor((columns * rows) / 2);
 }
 
 export function groupByRarity(
@@ -169,8 +170,8 @@ export function generateCard(opts: GenerateCardOptions): Card {
 
   const ordered = shuffle(rng, selected);
   const cardId = randomId(rng);
-  const total = config.cardSize * config.cardSize;
-  const center = freeCenterPosition(config.cardSize);
+  const total = config.cardColumns * config.cardRows;
+  const center = freeCenterPosition(config.cardColumns, config.cardRows);
   const slots: CardSlot[] = [];
   let ti = 0;
   for (let position = 0; position < total; position++) {
@@ -195,7 +196,8 @@ export function generateCard(opts: GenerateCardOptions): Card {
     id: cardId,
     gameId,
     playerId,
-    size: config.cardSize,
+    columns: config.cardColumns,
+    rows: config.cardRows,
     slots,
     rarityScore,
     generationMetadata: { attempts: attempts + 1, quota: config.rarityQuota },

@@ -21,7 +21,7 @@ describe("newGame", () => {
     });
     expect(s.game.status).toBe("active");
     expect(s.player.respinsRemaining).toBe(3);
-    expect(s.card.rarityScore).toBe(40);
+    expect(s.card.rarityScore).toBe(23); // 7 + 5*2 + 2*3 on the 5x3 card
     expect(s.game.winCondition).toEqual({ type: "any_line" });
   });
 });
@@ -48,7 +48,7 @@ describe("toggleSlot", () => {
       mode: "bingo",
       rng: seededRandom(1),
     });
-    const { state } = toggleSlot(s0, s0.card.slots[12].id);
+    const { state } = toggleSlot(s0, s0.card.slots[7].id);
     expect(state).toBe(s0);
   });
 
@@ -113,7 +113,7 @@ describe("persistence round trip", () => {
     s = toggleSlot(s, s.card.slots[3].id).state;
     s = reSpinSlot(
       s,
-      s.card.slots[7].id,
+      s.card.slots[8].id,
       DOG_THEME.tiles,
       seededRandom(6),
     ).state;

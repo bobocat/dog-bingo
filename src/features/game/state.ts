@@ -49,7 +49,7 @@ export function newGame(opts: NewGameOptions): GameState {
   // the common pool so total score stays as close to balanced as possible.
   const quota = { ...theme.config.rarityQuota };
   const slots =
-    theme.defaultCardSize * theme.defaultCardSize - (freeCenter ? 1 : 0);
+    theme.defaultCardColumns * theme.defaultCardRows - (freeCenter ? 1 : 0);
   quota.common += slots - (quota.common + quota.uncommon + quota.rare);
 
   const game: Game = {
@@ -60,7 +60,8 @@ export function newGame(opts: NewGameOptions): GameState {
     winCondition: GAME_MODES[mode].winCondition,
     status: "active",
     config: {
-      cardSize: theme.defaultCardSize,
+      cardColumns: theme.defaultCardColumns,
+      cardRows: theme.defaultCardRows,
       freeCenter,
       respins: theme.config.defaultRespins,
       rarityQuota: quota,
@@ -180,7 +181,7 @@ export function validateRestoredState(
   )
     return false;
   const slots = s.card.slots;
-  if (!Array.isArray(slots) || slots.length !== s.card.size * s.card.size)
+  if (!Array.isArray(slots) || slots.length !== s.card.columns * s.card.rows)
     return false;
   const ids = slots.filter((x) => !x.isFree).map((x) => x.tileId);
   if (ids.some((id) => id === null || !tilesById.has(id))) return false;

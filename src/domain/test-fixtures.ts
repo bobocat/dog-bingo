@@ -26,7 +26,8 @@ export function makeTiles(
 }
 
 export const DEFAULT_TEST_CONFIG: GameConfig = {
-  cardSize: 5,
+  cardColumns: 5,
+  cardRows: 5,
   freeCenter: true,
   respins: 3,
   rarityQuota: { common: 12, uncommon: 8, rare: 4 },

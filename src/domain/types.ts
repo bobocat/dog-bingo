@@ -80,7 +80,8 @@ export interface Theme {
   coverImageUrl?: string;
   status: ThemeStatus;
   defaultGameMode: GameModeId;
-  defaultCardSize: number;
+  defaultCardColumns: number;
+  defaultCardRows: number;
   recommendedAge?: string;
   /** Optional theme-specific label for the full_card mode, e.g. "Loteria". */
   fullCardLabel?: string;
@@ -128,7 +129,8 @@ export interface Card {
   id: string;
   gameId: string;
   playerId: string;
-  size: number;
+  columns: number;
+  rows: number;
   slots: CardSlot[];
   rarityScore: number;
   generationMetadata?: Record<string, unknown>;
@@ -154,7 +156,8 @@ export interface Player {
 }
 
 export interface GameConfig {
-  cardSize: number;
+  cardColumns: number;
+  cardRows: number;
   freeCenter: boolean;
   respins: number;
   rarityQuota: RarityQuota;

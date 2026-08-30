@@ -21,17 +21,17 @@ test("home page has no horizontal scroll and shows the dog theme", async ({
   expect(overflow).toBe(false);
 });
 
-test("deal a card: 24 playable tiles, free center, unique labels", async ({
+test("deal a card: 14 playable tiles, free center, unique labels", async ({
   page,
 }) => {
   await dealCard(page);
   await expect(page.getByLabel("Free space")).toBeVisible();
   const tiles = page.locator('[data-testid^="slot-"]');
-  await expect(tiles).toHaveCount(24);
+  await expect(tiles).toHaveCount(14);
   const labels = await tiles.evaluateAll((els) =>
     els.map((e) => e.getAttribute("aria-label")),
   );
-  expect(new Set(labels).size).toBe(24);
+  expect(new Set(labels).size).toBe(14);
   const overflow = await page.evaluate(
     () =>
       document.documentElement.scrollWidth >
@@ -45,7 +45,7 @@ test("mark, unmark, and info do not interfere", async ({ page }) => {
   const slot = page.getByTestId("slot-0");
   await slot.click();
   await expect(slot).toHaveAttribute("data-found", "true");
-  await expect(page.getByTestId("progress")).toHaveText("1 / 24");
+  await expect(page.getByTestId("progress")).toHaveText("1 / 14");
   await slot.click();
   await expect(slot).toHaveAttribute("data-found", "false");
 
@@ -82,15 +82,15 @@ test("re-spin replaces the tile, keeps uniqueness, and controls vanish at zero",
   const labels = await page
     .locator('[data-testid^="slot-"]')
     .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
-  expect(new Set(labels).size).toBe(24);
+  expect(new Set(labels).size).toBe(14);
 });
 
 test("progress survives a reload", async ({ page }) => {
   await dealCard(page);
   await page.getByTestId("slot-3").click();
-  await page.getByTestId("respin-7").click();
+  await page.getByTestId("respin-8").click();
   await expect(page.getByTestId("respins")).toHaveText("Re-spins: 2");
-  const label7 = await page.getByTestId("slot-7").getAttribute("aria-label");
+  const label8 = await page.getByTestId("slot-8").getAttribute("aria-label");
   const all = await page
     .locator('[data-testid^="slot-"]')
     .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
@@ -101,9 +101,9 @@ test("progress survives a reload", async ({ page }) => {
     "data-found",
     "true",
   );
-  await expect(page.getByTestId("slot-7")).toHaveAttribute(
+  await expect(page.getByTestId("slot-8")).toHaveAttribute(
     "aria-label",
-    label7!,
+    label8!,
   );
   const after = await page
     .locator('[data-testid^="slot-"]')
@@ -118,5 +118,5 @@ test("bingo completes on a full row and can play again", async ({ page }) => {
   await expect(page.getByText("BINGO!")).toBeVisible();
   await page.getByRole("button", { name: "Play again" }).click();
   await expect(page.getByTestId("completion")).toBeHidden();
-  await expect(page.getByTestId("progress")).toHaveText("0 / 24");
+  await expect(page.getByTestId("progress")).toHaveText("0 / 14");
 });

@@ -13,8 +13,15 @@ const POOL = makeTiles({ common: 25, uncommon: 20, rare: 15 });
 
 describe("playableSlotCount", () => {
   it("subtracts free center", () => {
-    expect(playableSlotCount({ cardSize: 5, freeCenter: true })).toBe(24);
-    expect(playableSlotCount({ cardSize: 5, freeCenter: false })).toBe(25);
+    expect(
+      playableSlotCount({ cardColumns: 5, cardRows: 5, freeCenter: true }),
+    ).toBe(24);
+    expect(
+      playableSlotCount({ cardColumns: 5, cardRows: 3, freeCenter: true }),
+    ).toBe(14);
+    expect(
+      playableSlotCount({ cardColumns: 5, cardRows: 5, freeCenter: false }),
+    ).toBe(25);
   });
 });
 

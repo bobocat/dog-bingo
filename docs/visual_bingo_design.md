@@ -3,7 +3,7 @@
 ## Product Design, Technical Architecture, AI Asset Pipeline, and Implementation Backlog
 
 **Document status:** Implementation design (living)  
-**Last updated:** 2026-08-30 (session 2) — portrait full-screen card; interim AI artwork shipped for all 68 tiles (see §62)  
+**Last updated:** 2026-08-30 (session 3) — 5×3 rectangular default card, fit-width art, tap sound/haptics (see §62)  
 **Primary implementation target:** Claude Code  
 **Primary platform:** Mobile-first browser/PWA  
 **Initial theme:** Dog spotting  
@@ -2326,6 +2326,14 @@ The single-player MVP is complete when:
 # 62. Implementation Notes (living)
 
 Decisions made during implementation that refine or clarify the design above. Newest first.
+
+## 2026-08-30 — Session 3
+
+- **Rectangular cards (departure from §5.1's 5×5 default):** at the user's direction the dog theme now deals a **5 columns × 3 rows** card (15 slots, free center at position 7, 14 playable). The domain is fully rectangular: `Card.columns/rows`, `GameConfig.cardColumns/cardRows`, `allLines(columns, rows)` emits rows + columns and includes diagonals **only for square cards**. Win conditions, four-corners, and the free-center position all generalize. 5×5 remains exercised by unit tests.
+- **Rarity quota rebalanced** for 14 playable slots: 7 common / 5 uncommon / 2 rare = 23 points (same ~50/36/14 mix as 12/8/4). Category rules scaled: breed ≤ 9, clothing ≤ 2.
+- **Fit-width art:** slot art now fits the slot width (vertically centered, never cropped); the detail sheet shows the full 3:4 illustration instead of a square crop.
+- **Sound + haptics (M6 P1 done):** Web Audio synthesized chirps (rising two-note on found, soft descending blip on unfound) plus `navigator.vibrate` (18 ms / 8 ms). Mute toggle in the play footer; preference in localStorage. No audio assets.
+- **Save compatibility:** old 5×5 saves fail `validateRestoredState` (slot count mismatch) and are discarded cleanly to the options screen — acceptable pre-launch.
 
 ## 2026-08-30 — Session 2
 

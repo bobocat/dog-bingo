@@ -31,41 +31,45 @@ export type Line = {
   positions: number[];
 };
 
-/** Enumerate all rows, columns, and both diagonals as position lists. */
-export function allLines(size: number): Line[] {
+/**
+ * Enumerate all rows, columns and (for square cards only) both diagonals
+ * as position lists.
+ */
+export function allLines(columns: number, rows: number): Line[] {
   const lines: Line[] = [];
-  for (let i = 0; i < size; i++) {
+  for (let r = 0; r < rows; r++) {
     lines.push({
       kind: "row",
-      index: i,
-      positions: Array.from({ length: size }, (_, c) => i * size + c),
-    });
-    lines.push({
-      kind: "column",
-      index: i,
-      positions: Array.from({ length: size }, (_, r) => r * size + i),
+      index: r,
+      positions: Array.from({ length: columns }, (_, c) => r * columns + c),
     });
   }
-  lines.push({
-    kind: "diagonal",
-    index: 0,
-    positions: Array.from({ length: size }, (_, i) => i * size + i),
-  });
-  lines.push({
-    kind: "diagonal",
-    index: 1,
-    positions: Array.from(
-      { length: size },
-      (_, i) => i * size + (size - 1 - i),
-    ),
-  });
+  for (let c = 0; c < columns; c++) {
+    lines.push({
+      kind: "column",
+      index: c,
+      positions: Array.from({ length: rows }, (_, r) => r * columns + c),
+    });
+  }
+  if (columns === rows) {
+    lines.push({
+      kind: "diagonal",
+      index: 0,
+      positions: Array.from({ length: columns }, (_, i) => i * columns + i),
+    });
+    lines.push({
+      kind: "diagonal",
+      index: 1,
+      positions: Array.from({ length: columns }, (_, i) => i * columns + (columns - 1 - i)),
+    });
+  }
   return lines;
 }
 
 /** Lines that are fully satisfied on this card. */
 export function completedLines(card: Card): Line[] {
   const flat = slotsByPosition(card);
-  return allLines(card.size).filter((line) =>
+  return allLines(card.columns, card.rows).filter((line) =>
     line.positions.every((p) => satisfied(flat[p])),
   );
 }
@@ -76,8 +80,9 @@ export function isCardComplete(card: Card): boolean {
 
 export function fourCornersComplete(card: Card): boolean {
   const flat = slotsByPosition(card);
-  const n = card.size;
-  return [0, n - 1, n * (n - 1), n * n - 1].every((p) => satisfied(flat[p]));
+  const c = card.columns;
+  const r = card.rows;
+  return [0, c - 1, c * (r - 1), c * r - 1].every((p) => satisfied(flat[p]));
 }
 
 /**

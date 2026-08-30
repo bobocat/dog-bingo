@@ -16,7 +16,8 @@ export function OptionsScreen({
 }) {
   const [mode, setMode] = useState<GameModeId>(theme.defaultGameMode);
   const [freeCenter, setFreeCenter] = useState(theme.config.freeCenter);
-  const size = theme.defaultCardSize;
+  const columns = theme.defaultCardColumns;
+  const rows = theme.defaultCardRows;
 
   const modes: Array<{ id: GameModeId; label: string; blurb: string }> = [
     {
@@ -73,8 +74,8 @@ export function OptionsScreen({
         <span>
           <span className="block font-black">Free center space</span>
           <span className="text-muted block text-sm">
-            {size}×{size} card, {freeCenter ? size * size - 1 : size * size}{" "}
-            tiles to find
+            {columns}×{rows} card, {columns * rows - (freeCenter ? 1 : 0)} tiles
+            to find
           </span>
         </span>
         <input

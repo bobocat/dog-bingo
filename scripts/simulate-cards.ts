@@ -25,7 +25,8 @@ if (!theme) {
 }
 
 const config: GameConfig = {
-  cardSize: theme.defaultCardSize,
+  cardColumns: theme.defaultCardColumns,
+  cardRows: theme.defaultCardRows,
   freeCenter: theme.config.freeCenter,
   respins: theme.config.defaultRespins,
   rarityQuota: theme.config.rarityQuota,

@@ -45,7 +45,8 @@ describe("dog theme content", () => {
   it("generates 1,000 valid cards with its own category rules", () => {
     const rng = seededRandom(2026);
     const config = {
-      cardSize: DOG_THEME.defaultCardSize,
+      cardColumns: DOG_THEME.defaultCardColumns,
+      cardRows: DOG_THEME.defaultCardRows,
       freeCenter: DOG_THEME.config.freeCenter,
       respins: DOG_THEME.config.defaultRespins,
       rarityQuota: DOG_THEME.config.rarityQuota,
@@ -59,7 +60,7 @@ describe("dog theme content", () => {
         playerId: "p",
         rng,
       });
-      expect(card.rarityScore).toBe(40);
+      expect(card.rarityScore).toBe(23);
     }
   });
 });

@@ -67,7 +67,7 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 - [x] **P0 — Optimized image loading** — masters resized to 384×512 card WebP + 768×1024 detail WebP via `scripts/optimize-tiles.mjs`; card uses thumbnails, detail lazy-loads; emoji fallback on load failure.
 - [x] **P0 — Game options screen** — Bingo / Full Card, free center toggle (quota auto-adjusts +1 common when off).
 - [x] **P0 — Completion screen** — confetti, stats (found, time, re-spins used), Play again / Change options / Themes.
-- [ ] **P1 — Sound/haptics** — with mute setting.
+- [x] **P1 — Sound/haptics** — Web Audio synthesized chirps on mark/unmark + navigator.vibrate; mute toggle in the play footer, preference in localStorage (`src/features/game/feedback.ts`).
 - [~] **P1 — Accessibility pass** — aria labels, roles, keyboard toggle, focus rings, reduced motion in place. Needs contrast audit and screen-reader test.
 
 ## Milestone 7 — Supabase Production Backend
@@ -121,9 +121,10 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 
 - [ ] **P1 — Service worker / offline** — required for §25; consider `serwist` or hand-rolled SW once real image assets exist.
 - [ ] **P1 — Long-press to open tile info** — §15 recommends long press in addition to the `i` button. Only the button exists.
-- [ ] **P2 — Free-center-off balancing** — currently adds one common tile; consider a theme-defined 25-slot quota instead.
+- [ ] **P2 — Free-center-off balancing** — currently adds one common tile; consider a theme-defined full-size quota instead.
 - [ ] **P2 — Multiple saved games** — storage keys by game id already; UI only tracks one "current" game.
 - [ ] **P2 — Un-marking after completion** — game freezes at `completed`; decide whether players may reopen a card.
 - [x] **P2 — Placeholder art for tiles that share an emoji** — resolved: real art shipped for all 68 tiles; emoji remains only as a load-failure fallback.
 - [ ] **P1 — Per-tile art QA pass** — sampled tiles look right, but all 68 should be reviewed against the §41 checklist (anatomy, breed accuracy, stray text/frames). One frame already cropped (`person_walking_three_dogs`).
 - [ ] **P2 — Commit or archive master images** — 68 JPEG masters live outside the repo; decide where they belong (repo LFS, Supabase Storage in M7, or archive).
+- [ ] **P2 — Sound on win/re-spin** — only mark/unmark has audio; consider a completion fanfare and re-spin tick.
