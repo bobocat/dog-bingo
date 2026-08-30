@@ -60,7 +60,10 @@ export function allLines(columns: number, rows: number): Line[] {
     lines.push({
       kind: "diagonal",
       index: 1,
-      positions: Array.from({ length: columns }, (_, i) => i * columns + (columns - 1 - i)),
+      positions: Array.from(
+        { length: columns },
+        (_, i) => i * columns + (columns - 1 - i),
+      ),
     });
   }
   return lines;

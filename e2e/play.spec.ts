@@ -21,17 +21,17 @@ test("home page has no horizontal scroll and shows the dog theme", async ({
   expect(overflow).toBe(false);
 });
 
-test("deal a card: 14 playable tiles, free center, unique labels", async ({
+test("deal a card: 16 unique playable tiles, no free space", async ({
   page,
 }) => {
   await dealCard(page);
-  await expect(page.getByLabel("Free space")).toBeVisible();
+  await expect(page.getByLabel("Free space")).toHaveCount(0);
   const tiles = page.locator('[data-testid^="slot-"]');
-  await expect(tiles).toHaveCount(14);
+  await expect(tiles).toHaveCount(16);
   const labels = await tiles.evaluateAll((els) =>
     els.map((e) => e.getAttribute("aria-label")),
   );
-  expect(new Set(labels).size).toBe(14);
+  expect(new Set(labels).size).toBe(16);
   const overflow = await page.evaluate(
     () =>
       document.documentElement.scrollWidth >
@@ -45,7 +45,7 @@ test("mark, unmark, and info do not interfere", async ({ page }) => {
   const slot = page.getByTestId("slot-0");
   await slot.click();
   await expect(slot).toHaveAttribute("data-found", "true");
-  await expect(page.getByTestId("progress")).toHaveText("1 / 14");
+  await expect(page.getByTestId("progress")).toHaveText("1 / 16");
   await slot.click();
   await expect(slot).toHaveAttribute("data-found", "false");
 
@@ -82,7 +82,7 @@ test("re-spin replaces the tile, keeps uniqueness, and controls vanish at zero",
   const labels = await page
     .locator('[data-testid^="slot-"]')
     .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
-  expect(new Set(labels).size).toBe(14);
+  expect(new Set(labels).size).toBe(16);
 });
 
 test("progress survives a reload", async ({ page }) => {
@@ -113,10 +113,10 @@ test("progress survives a reload", async ({ page }) => {
 
 test("bingo completes on a full row and can play again", async ({ page }) => {
   await dealCard(page, "bingo");
-  for (const i of [0, 1, 2, 3, 4]) await page.getByTestId(`slot-${i}`).click();
+  for (const i of [0, 1, 2, 3]) await page.getByTestId(`slot-${i}`).click();
   await expect(page.getByTestId("completion")).toBeVisible();
   await expect(page.getByText("BINGO!")).toBeVisible();
   await page.getByRole("button", { name: "Play again" }).click();
   await expect(page.getByTestId("completion")).toBeHidden();
-  await expect(page.getByTestId("progress")).toHaveText("0 / 14");
+  await expect(page.getByTestId("progress")).toHaveText("0 / 16");
 });

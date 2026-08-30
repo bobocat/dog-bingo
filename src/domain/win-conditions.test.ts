@@ -50,8 +50,12 @@ describe("allLines", () => {
     const lines = allLines(5, 3);
     expect(lines).toHaveLength(8); // 3 rows + 5 columns
     expect(lines.every((l) => l.kind !== "diagonal")).toBe(true);
-    expect(lines.find((l) => l.kind === "row" && l.index === 1)!.positions).toEqual([5, 6, 7, 8, 9]);
-    expect(lines.find((l) => l.kind === "column" && l.index === 2)!.positions).toEqual([2, 7, 12]);
+    expect(
+      lines.find((l) => l.kind === "row" && l.index === 1)!.positions,
+    ).toEqual([5, 6, 7, 8, 9]);
+    expect(
+      lines.find((l) => l.kind === "column" && l.index === 2)!.positions,
+    ).toEqual([2, 7, 12]);
   });
 });
 

@@ -65,7 +65,7 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 - [x] **P0 — IndexedDB persistence** — `storage.ts`; refresh restores card, found state, re-spins, replacements (e2e asserted). Restored state is re-validated against the unique-tile invariant.
 - [~] **P0 — PWA manifest/service worker** — manifest + icons + viewport done. **No service worker yet**; offline play not implemented.
 - [x] **P0 — Optimized image loading** — masters resized to 384×512 card WebP + 768×1024 detail WebP via `scripts/optimize-tiles.mjs`; card uses thumbnails, detail lazy-loads; emoji fallback on load failure.
-- [x] **P0 — Game options screen** — Bingo / Full Card, free center toggle (quota auto-adjusts +1 common when off).
+- [x] **P0 — Game options screen** — Bingo / Full Card; free-center toggle shown only for odd×odd grids (default 4×4 Loteria card has none).
 - [x] **P0 — Completion screen** — confetti, stats (found, time, re-spins used), Play again / Change options / Themes.
 - [x] **P1 — Sound/haptics** — Web Audio synthesized chirps on mark/unmark + navigator.vibrate; mute toggle in the play footer, preference in localStorage (`src/features/game/feedback.ts`).
 - [~] **P1 — Accessibility pass** — aria labels, roles, keyboard toggle, focus rings, reduced motion in place. Needs contrast audit and screen-reader test.

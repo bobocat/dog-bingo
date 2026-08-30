@@ -21,7 +21,7 @@ describe("newGame", () => {
     });
     expect(s.game.status).toBe("active");
     expect(s.player.respinsRemaining).toBe(3);
-    expect(s.card.rarityScore).toBe(23); // 7 + 5*2 + 2*3 on the 5x3 card
+    expect(s.card.rarityScore).toBe(27); // 8 + 5*2 + 3*3 on the 4x4 card
     expect(s.game.winCondition).toEqual({ type: "any_line" });
   });
 });
@@ -42,26 +42,38 @@ describe("toggleSlot", () => {
     expect(s2.card.slots[0].foundAt).toBeUndefined();
   });
 
-  it("ignores the free slot", () => {
+  it("deals no free slot on the 4x4 Loteria card", () => {
     const s0 = newGame({
       theme: DOG_THEME,
       mode: "bingo",
       rng: seededRandom(1),
     });
-    const { state } = toggleSlot(s0, s0.card.slots[7].id);
+    expect(s0.card.slots.some((x) => x.isFree)).toBe(false);
+    expect(s0.card.slots).toHaveLength(16);
+  });
+
+  it("ignores a free slot when one exists", () => {
+    const s0 = newGame({
+      theme: { ...DOG_THEME, defaultCardColumns: 5, defaultCardRows: 3 },
+      mode: "bingo",
+      freeCenter: true,
+      rng: seededRandom(1),
+    });
+    const free = s0.card.slots.find((x) => x.isFree)!;
+    const { state } = toggleSlot(s0, free.id);
     expect(state).toBe(s0);
   });
 
   it("fires completion exactly once on the completing transition", () => {
     let s = newGame({ theme: DOG_THEME, mode: "bingo", rng: seededRandom(1) });
     const results: boolean[] = [];
-    for (const pos of [0, 1, 2, 3]) {
+    for (const pos of [0, 1, 2]) {
       const r = toggleSlot(s, s.card.slots[pos].id);
       s = r.state;
       results.push(r.justCompleted);
     }
-    expect(results).toEqual([false, false, false, false]);
-    const r = toggleSlot(s, s.card.slots[4].id, 99);
+    expect(results).toEqual([false, false, false]);
+    const r = toggleSlot(s, s.card.slots[3].id, 99); // completes row 0
     expect(r.justCompleted).toBe(true);
     expect(r.state.game.status).toBe("completed");
     expect(r.state.completedAt).toBe(99);

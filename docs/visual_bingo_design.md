@@ -3,7 +3,7 @@
 ## Product Design, Technical Architecture, AI Asset Pipeline, and Implementation Backlog
 
 **Document status:** Implementation design (living)  
-**Last updated:** 2026-08-30 (session 3) — 5×3 rectangular default card, fit-width art, tap sound/haptics (see §62)  
+**Last updated:** 2026-08-30 (session 4) — default card is now 4×4 Loteria-style, no free space (see §62)  
 **Primary implementation target:** Claude Code  
 **Primary platform:** Mobile-first browser/PWA  
 **Initial theme:** Dog spotting  
@@ -2326,6 +2326,11 @@ The single-player MVP is complete when:
 # 62. Implementation Notes (living)
 
 Decisions made during implementation that refine or clarify the design above. Newest first.
+
+## 2026-08-30 — Session 4
+
+- **4×4 Loteria default (supersedes session 3's 5×3):** the dog theme now deals a classic Loteria-style **4×4 card: 16 tiles, no free space** — an even grid has no true centre cell, and traditional Loteria uses none. Quota: 8/5/3 = 27 points; breed ≤ 10, clothing ≤ 2. Diagonals are back in line detection since the card is square.
+- **Free-centre option is hidden when the grid has no true centre** (either dimension even); it still works for odd×odd configurations and remains covered by tests. The rectangular domain from session 3 is unchanged — 5×5 and 5×3 stay unit-tested.
 
 ## 2026-08-30 — Session 3
 

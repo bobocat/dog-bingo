@@ -60,7 +60,7 @@ describe("dog theme content", () => {
         playerId: "p",
         rng,
       });
-      expect(card.rarityScore).toBe(23);
+      expect(card.rarityScore).toBe(27);
     }
   });
 });

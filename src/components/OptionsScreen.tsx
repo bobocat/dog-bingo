@@ -18,6 +18,8 @@ export function OptionsScreen({
   const [freeCenter, setFreeCenter] = useState(theme.config.freeCenter);
   const columns = theme.defaultCardColumns;
   const rows = theme.defaultCardRows;
+  // A free centre needs a true centre cell (both dimensions odd).
+  const hasCenter = columns % 2 === 1 && rows % 2 === 1;
 
   const modes: Array<{ id: GameModeId; label: string; blurb: string }> = [
     {
@@ -70,21 +72,23 @@ export function OptionsScreen({
         ))}
       </div>
 
-      <label className="bg-surface mt-6 flex min-h-[var(--touch-min)] items-center justify-between rounded-[var(--radius-tile)] p-4 shadow-[var(--shadow-tile)]">
-        <span>
-          <span className="block font-black">Free center space</span>
-          <span className="text-muted block text-sm">
-            {columns}×{rows} card, {columns * rows - (freeCenter ? 1 : 0)} tiles
-            to find
+      {hasCenter && (
+        <label className="bg-surface mt-6 flex min-h-[var(--touch-min)] items-center justify-between rounded-[var(--radius-tile)] p-4 shadow-[var(--shadow-tile)]">
+          <span>
+            <span className="block font-black">Free center space</span>
+            <span className="text-muted block text-sm">
+              {columns}×{rows} card, {columns * rows - (freeCenter ? 1 : 0)}{" "}
+              tiles to find
+            </span>
           </span>
-        </span>
-        <input
-          type="checkbox"
-          checked={freeCenter}
-          onChange={(e) => setFreeCenter(e.target.checked)}
-          className="accent-accent h-7 w-7"
-        />
-      </label>
+          <input
+            type="checkbox"
+            checked={freeCenter}
+            onChange={(e) => setFreeCenter(e.target.checked)}
+            className="accent-accent h-7 w-7"
+          />
+        </label>
+      )}
 
       {error && (
         <p role="alert" className="pt-3 text-sm font-bold text-red-700">
