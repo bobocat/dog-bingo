@@ -89,7 +89,7 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 - [ ] **P0 — Server winner validation**
 - [ ] **P0 — Reconnect**
 - [ ] **P1 — Progress leaderboard**
-- [ ] **P1 — QR joining**
+- [~] **P1 — QR joining** — single-player invite shipped early: home-screen "Invite a friend" QR + share sheet (`InviteButton.tsx`, `qrcode` pkg) links to the app so a friend plays their own card. True QR _game joining_ (`/join/CODE`) still belongs to multiplayer.
 
 ## Milestone 9 — Teams
 

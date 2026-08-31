@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InviteButton } from "@/components/InviteButton";
 import { listThemes } from "@/themes";
 
 export default function HomePage() {
@@ -45,6 +46,8 @@ export default function HomePage() {
           </li>
         ))}
       </ul>
+
+      <InviteButton />
 
       <div className="flex-1" />
       <p className="text-muted pt-10 text-center text-xs">

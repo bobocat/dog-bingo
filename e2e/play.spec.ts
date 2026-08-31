@@ -21,6 +21,18 @@ test("home page has no horizontal scroll and shows the dog theme", async ({
   expect(overflow).toBe(false);
 });
 
+test("invite dialog shows a scannable QR code", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("invite").click();
+  const dialog = page.getByTestId("invite-dialog");
+  await expect(dialog).toBeVisible();
+  const img = dialog.getByRole("img");
+  await expect(img).toBeVisible();
+  await expect(img).toHaveAttribute("src", /^data:image\/png/);
+  await dialog.getByRole("button", { name: "Close" }).click();
+  await expect(dialog).toBeHidden();
+});
+
 test("deal a card: 16 unique playable tiles, no free space", async ({
   page,
 }) => {
