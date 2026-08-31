@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContinueCard } from "@/components/ContinueCard";
 import { InviteButton } from "@/components/InviteButton";
 import { listThemes } from "@/themes";
 
@@ -17,9 +18,10 @@ export default function HomePage() {
         and go for a walk.
       </p>
 
-      <h2 className="pt-10 text-sm font-black tracking-wide uppercase">
-        Themes
-      </h2>
+      <div className="pt-10">
+        <ContinueCard />
+      </div>
+      <h2 className="text-sm font-black tracking-wide uppercase">Themes</h2>
       <ul className="flex flex-col gap-3 pt-3">
         {themes.map((t) => (
           <li key={t.id}>

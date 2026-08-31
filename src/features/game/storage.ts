@@ -8,6 +8,25 @@ const DB_NAME = "dog-bingo";
 const DB_VERSION = 1;
 const STORE = "games";
 const CURRENT_KEY = "dog-bingo:currentGameId";
+const CURRENT_THEME_KEY = "dog-bingo:currentThemeSlug";
+
+/** Slug of the theme with a game in progress (for the home-screen Continue card). */
+export function getCurrentThemeSlug(): string | null {
+  try {
+    return localStorage.getItem(CURRENT_THEME_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setCurrentThemeSlug(slug: string | null): void {
+  try {
+    if (slug) localStorage.setItem(CURRENT_THEME_KEY, slug);
+    else localStorage.removeItem(CURRENT_THEME_KEY);
+  } catch {
+    /* private mode */
+  }
+}
 
 function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {

@@ -62,7 +62,7 @@ Extracted from `visual_bingo_design.md` §55 on 2026-08-30. This is the running 
 
 ## Milestone 6 — Production Single Player
 
-- [x] **P0 — IndexedDB persistence** — `storage.ts`; refresh restores card, found state, re-spins, replacements (e2e asserted). Restored state is re-validated against the unique-tile invariant.
+- [x] **P0 — IndexedDB persistence** — `storage.ts`; refresh restores card, found state, re-spins, replacements (e2e asserted). Restored state is re-validated against the unique-tile invariant. Hardened 2026-08-30: legacy saves are **migrated** (`migrateGameState`) instead of discarded, state re-flushes on `pagehide`/backgrounding, `navigator.storage.persist()` requested on game start, and the home screen shows a Continue card.
 - [~] **P0 — PWA manifest/service worker** — manifest + icons + viewport done. **No service worker yet**; offline play not implemented.
 - [x] **P0 — Optimized image loading** — masters resized to 384×512 card WebP + 768×1024 detail WebP via `scripts/optimize-tiles.mjs`; card uses thumbnails, detail lazy-loads; emoji fallback on load failure.
 - [x] **P0 — Game options screen** — Bingo / Full Card; free-center toggle shown only for odd×odd grids (default 4×4 Loteria card has none).

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { seededRandom } from "@/domain/random";
 import { DOG_THEME } from "@/themes/dog";
 import {
+  migrateGameState,
   newGame,
   reSpinSlot,
   toggleSlot,
@@ -115,6 +116,46 @@ describe("reSpinSlot", () => {
     expect(() =>
       reSpinSlot(s, s.card.slots[5].id, DOG_THEME.tiles, rng),
     ).toThrow(/No re-spins/);
+  });
+});
+
+describe("migrateGameState", () => {
+  it("migrates a legacy size-based save and it validates", () => {
+    const modern = newGame({
+      theme: DOG_THEME,
+      mode: "bingo",
+      rng: seededRandom(9),
+    });
+    const legacy = structuredClone(modern) as unknown as Record<
+      string,
+      unknown
+    >;
+    const card = legacy.card as Record<string, unknown>;
+    card.size = card.columns;
+    delete card.columns;
+    delete card.rows;
+    const cfg = (legacy.game as { config: Record<string, unknown> }).config;
+    cfg.cardSize = cfg.cardColumns;
+    delete cfg.cardColumns;
+    delete cfg.cardRows;
+
+    const migrated = migrateGameState(legacy)!;
+    expect(migrated).not.toBeNull();
+    expect(migrated.card.columns).toBe(4);
+    expect(migrated.card.rows).toBe(4);
+    expect(migrated.game.config.cardColumns).toBe(4);
+    expect(validateRestoredState(migrated, tilesById)).toBe(true);
+  });
+
+  it("passes modern saves through unchanged and rejects junk", () => {
+    const modern = newGame({
+      theme: DOG_THEME,
+      mode: "bingo",
+      rng: seededRandom(9),
+    });
+    expect(migrateGameState(structuredClone(modern))).toEqual(modern);
+    expect(migrateGameState(null)).toBeNull();
+    expect(migrateGameState({ schemaVersion: 99 })).toBeNull();
   });
 });
 

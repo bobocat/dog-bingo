@@ -165,6 +165,38 @@ export function isComplete(state: GameState): boolean {
   return state.game.status === "completed";
 }
 
+/**
+ * Migrate saves written by older app versions instead of discarding them.
+ * v1 legacy shape: square cards stored `card.size` / `config.cardSize`.
+ * Returns a migrated copy, or null if the value is not a recognizable save.
+ */
+export function migrateGameState(value: unknown): GameState | null {
+  if (!value || typeof value !== "object") return null;
+  const s = structuredClone(value) as {
+    schemaVersion?: number;
+    card?: Record<string, unknown>;
+    game?: { config?: Record<string, unknown> };
+  };
+  if (s.schemaVersion !== 1) return null;
+  const card = s.card;
+  if (card && typeof card.size === "number" && card.columns === undefined) {
+    card.columns = card.size;
+    card.rows = card.size;
+    delete card.size;
+  }
+  const cfg = s.game?.config;
+  if (
+    cfg &&
+    typeof cfg.cardSize === "number" &&
+    cfg.cardColumns === undefined
+  ) {
+    cfg.cardColumns = cfg.cardSize;
+    cfg.cardRows = cfg.cardSize;
+    delete cfg.cardSize;
+  }
+  return s as unknown as GameState;
+}
+
 /** Minimal structural validation for restored state (§10 applies to restores too). */
 export function validateRestoredState(
   value: unknown,

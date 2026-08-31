@@ -123,6 +123,18 @@ test("progress survives a reload", async ({ page }) => {
   expect(after).toEqual(all);
 });
 
+test("home screen offers continuing the in-progress game", async ({ page }) => {
+  await dealCard(page);
+  await page.getByTestId("slot-0").click();
+  await page.goto("/");
+  await page.getByTestId("continue-game").click();
+  await expect(page.getByTestId("progress")).toHaveText("1 / 16");
+  await expect(page.getByTestId("slot-0")).toHaveAttribute(
+    "data-found",
+    "true",
+  );
+});
+
 test("bingo completes on a full row and can play again", async ({ page }) => {
   await dealCard(page, "bingo");
   for (const i of [0, 1, 2, 3]) await page.getByTestId(`slot-${i}`).click();
